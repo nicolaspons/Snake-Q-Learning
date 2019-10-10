@@ -93,23 +93,40 @@ class Snake:
             self.r_pos = 3
         else:
             self.r_pos = 4
-            
+      
+    def find_relative_pos2(self):
+        x = self.apple[0] - self.pos[0]
+        y = self.apple[1] - self.pos[1]
+        return (x,y)
+                        
     def find_context(self): 
         """
         return the index of the corresponding state in the Q_table
         """
         context = ["0"] * 4
-        x = self.pos[0]
-        y = self.pos[1]
-        if (x-1, y) in self.body:
+        if (self.pos[0]-1, self.pos[1]) in self.body:
             context[0] = "1"
-        if (x, y-1) in self.body:
+        if (self.pos[0], self.pos[1]-1) in self.body:
             context[1] = "1"
-        if (x+1, y) in self.body:
+        if (self.pos[0]+1, self.pos[1]) in self.body:
             context[2] = "1"
-        if (x, y+1) in self.body:
+        if (self.pos[0], self.pos[1]+1) in self.body:
             context[3] = "1"
         return "".join(context)
+    
+    def find_context2(self):
+        context = ["0"] * 81
+        ct = 0
+        for i in range(-4, 5):
+            for j in range(-4, 5):
+                x_r = self.pos[0] + j
+                y_r = self.pos[1] + i
+                if x_r < 0 or x_r >= s or y_r < 0 or y_r >= s:
+                    context[ct] = 1
+                elif (x_r, y_r) in self.body:
+                    context[ct] = 1
+                ct += 1
+        return context
     
     def draw_(self, t, c=(255,255,255)):
         fill(c[0], c[1], c[2])
@@ -167,6 +184,18 @@ def update_text(x, nb):
         text(str(nb), s * 12, 90)
     stroke(0)
 
+def update_map():
+    l = snake.find_context2()
+    x_map = s * 11
+    y_map = 100
+    for i in range(0,81):
+        if l[i] == 1:
+            fill(0,0,255)
+        else:
+            fill(255,255,255)
+        rect(x_map + ((i % 9) * 10), y_map + ((i // 9) * 10), 10, 10)
+        
+
 # Processing
 # ----------------------------------------------
 snake = Snake()
@@ -213,6 +242,10 @@ def draw():
         snake.draw_head()
         snake.draw_apple()
         update_text(1, len(snake.body))
+        update_map()
+        print(snake.find_relative_pos2())
+        global run
+        run = not run
 
 def keyPressed():
     if key == 'p':
