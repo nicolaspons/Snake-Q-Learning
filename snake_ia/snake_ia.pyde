@@ -117,7 +117,7 @@ class Snake:
     
     def draw_head(self):
         fill(0,0,255)
-        if self.pos[0] < 40 or self.pos[1] < 40:
+        if self.pos[0] < 40 and self.pos[1] < 40:
             circle(self.pos[0] * 10 + 5, self.pos[1] * 10 + 5, 5)
             
     def draw_apple(self):
@@ -141,7 +141,7 @@ def reset_Q_table():
 
 def fill_Q_table():
     qt = []
-    f = open("./saves/Q_table_2.txt", "r")
+    f = open("./saves/Q_table_9.txt", "r")
     for line in f.readlines():
         weights = line.split(",")
         qt.append([float(x) for x in weights])
@@ -186,7 +186,7 @@ def setup():
     global Q_table
     Q_table = fill_Q_table()
     st = snake.find_state()
-    frameRate(10)
+    frameRate(120)
     
 def draw():
     if run:

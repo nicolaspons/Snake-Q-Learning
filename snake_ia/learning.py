@@ -141,7 +141,7 @@ def save_Q_table():
 
 Q_table = np.array(0)
 
-def train(path=None, s=40, step=10000000):
+def train(path=None, s=40, step=100000000):
     i = 0
     record = 1
     snake = Snake()
