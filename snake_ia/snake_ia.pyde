@@ -5,6 +5,7 @@ st = 0
 death = 0
 record = 1
 run = True
+filename = "./saves/Q_table_9.txt"
 
 # snake
 # ----------------------------------------------
@@ -141,7 +142,7 @@ def reset_Q_table():
 
 def fill_Q_table():
     qt = []
-    f = open("./saves/Q_table_9.txt", "r")
+    f = open(filename, "r")
     for line in f.readlines():
         weights = line.split(",")
         qt.append([float(x) for x in weights])
